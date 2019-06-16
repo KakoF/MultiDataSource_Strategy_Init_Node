@@ -1,0 +1,61 @@
+Primeiro comando:
+
+docker ps - vai mostrar quais processos estão rodando na maquina
+
+docker container rm <NOMECONTAINER> REMOVE O CONTAINER
+
+docker run \
+    --name postgres \
+    -e POSTGRES_USER=kakoferrare \              Configuração de ambiente usuário
+    -e POSTGRES_PASSWORD=fcm020964 \            Configuração de ambiente senha
+    -e POSTGRES_DB=heros \                      Configuração de ambiente e já com uma database
+    -p 5432:5432 \                              Portas que vão rodar, expor na 5432 externa/interna
+    -d \                                        Executar rodar em segundo plano
+    postgres                                    Nome da imagem
+
+
+ENTRAR NO CONTAINER PARA EXECUTAR QUALQUER COMANDO
+docker exec -it postgres /bin/bash
+    ->psql
+
+SAIR DO CONTAINER
+exit
+
+INSTALAÇÃO DA INTERFACE DO POSTGRES
+docker run \
+    --name adminer \
+    -p 8080:8080 \       
+    --link postgres:postgres \                  Vai ter permissão na imgagem postgres e ser linkados                   
+    -d \                                       
+    adminer      
+
+
+-----MONGODB
+
+docker run \
+    --name mongodb \
+    -p 27017:27017 \ 
+    -e MONGO_INITDB_ROOT_USERNAME=admin \       Esse é o usuário que vai criar outros usuários e outras bases de dados               
+    -e MONGO_INITDB_ROOT_PASSWORD=senhaadmin \                      
+    -d \                                        
+    mongo:4                                     Mongo da versão 4 
+
+
+
+DEU ERRO EXECUTEI ESSE MAS TAMBEM TIVE O MESMO: docker run -d -p 3000:3000 mongoclient/mongoclient
+
+docker run \
+    --name mongoclient \
+    -p 3001:3001 \ 
+    --link mongodb:mongodb \              
+    -d \                                        
+    mongoclient/mongoclient               
+
+INSTALEI O COMPASS DO MONGO E FIZ A CONEXÃO POR ELE, USANDO localhost o nome do server    
+
+
+CRIAR O BANCO DE dados e usuário
+
+docker exec - it mongodb mongo --host localhost -u admin -p senhaadmin -- authenticationDatabase admin  --eval "db.getSiblingDB['heros'].createUser({user:'kakoferrare', pwd: 'fcm020964', roles:[{'readWrite', db:'heros'}]})"
+
+  
