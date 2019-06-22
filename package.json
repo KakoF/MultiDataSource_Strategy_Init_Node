@@ -4,9 +4,18 @@
   "description": "Primeiro comando:",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha src/tests/*.js",
+    "test:watch": "mocha src/tests/*.js -w"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "pg": "^7.11.0",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^5.8.10"
+  },
+  "devDependencies": {
+    "mocha": "^6.1.4"
+  }
 }
